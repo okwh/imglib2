@@ -36,6 +36,7 @@ package net.imglib2.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -71,6 +72,7 @@ import net.imglib2.util.Intervals;
 import net.imglib2.util.Pair;
 import net.imglib2.util.Util;
 import net.imglib2.view.StackView.StackAccessMode;
+import net.imglib2.view.collection.TypeCollection;
 import net.imglib2.view.composite.CompositeIntervalView;
 import net.imglib2.view.composite.CompositeView;
 import net.imglib2.view.composite.GenericComposite;
@@ -1489,6 +1491,32 @@ public class Views
 				hyperSlices.add( Views.hyperSlice( source, concatenationAxis, index ) );
 
 		return Views.stack( mode, hyperSlices );
+	}
+	
+	/**
+	 * 
+	 * Return a {@link IterableInterval} as a {@link Collection}.
+	 * 
+	 * @param source
+	 *           {@link IterableInterval} to view as a {@link Collection}.
+	 * @return {@link TypeCollection} view of the source.
+	 */
+	public static < T > Collection< T > collection( final IterableInterval source )
+	{
+		return new TypeCollection<>( source );
+	}
+	
+	/**
+	 * 
+	 * Return a {@link RandomAccessibleInterval} as a {@link Collection}.
+	 * 
+	 * @param source
+	 *           {@link RandomAccessibleInterval} to view as a {@link Collection}.
+	 * @return {@link TypeCollection} view of the source.
+	 */
+	public static < T > Collection< T > collection( final RandomAccessibleInterval< T > source )
+	{
+		return new TypeCollection( Views.iterable( source ) );
 	}
 
 }
