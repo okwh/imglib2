@@ -1,4 +1,4 @@
-/*-
+/*
  * #%L
  * ImgLib2: a general-purpose, multidimensional image processing library.
  * %%
@@ -31,31 +31,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imglib2.type;
+package net.imglib2.img.basictypeaccess.volatiles;
 
-import net.imglib2.img.basictypeaccess.AccessFlags;
-import net.imglib2.img.basictypeaccess.array.ArrayDataAccess;
-import net.imglib2.img.basictypeaccess.volatiles.array.DirtyVolatileByteArray;
+import net.imglib2.img.basictypeaccess.BooleanAccess;
+
 
 /**
- * Enumeration of Java primitive types which can back {@link NativeType}s.
- * <p>
- * In conjunction with {@link AccessFlags} this describes a specific
- * {@link ArrayDataAccess}. For example, {@code BYTE} with flags {@code DIRTY}
- * and {@code VOLATILE} specifies {@link DirtyVolatileByteArray}.
- * </p>
- *
- * @author Tobias Pietzsch
+ * @author Curtis Rueden
  */
-public enum PrimitiveType
-{
-	BOOLEAN,
-	BYTE,
-	CHAR,
-	SHORT,
-	INT,
-	LONG,
-	FLOAT,
-	DOUBLE,
-	UNDEFINED;
-}
+public interface VolatileBooleanAccess extends BooleanAccess, VolatileAccess
+{}

@@ -31,31 +31,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imglib2.type;
+package net.imglib2.img.basictypeaccess.volatiles.array;
 
-import net.imglib2.img.basictypeaccess.AccessFlags;
-import net.imglib2.img.basictypeaccess.array.ArrayDataAccess;
-import net.imglib2.img.basictypeaccess.volatiles.array.DirtyVolatileByteArray;
+import net.imglib2.img.basictypeaccess.array.AbstractBooleanArray;
+import net.imglib2.img.basictypeaccess.volatiles.VolatileArrayDataAccess;
 
 /**
- * Enumeration of Java primitive types which can back {@link NativeType}s.
- * <p>
- * In conjunction with {@link AccessFlags} this describes a specific
- * {@link ArrayDataAccess}. For example, {@code BYTE} with flags {@code DIRTY}
- * and {@code VOLATILE} specifies {@link DirtyVolatileByteArray}.
- * </p>
- *
- * @author Tobias Pietzsch
+ * @author Curtis Rueden
  */
-public enum PrimitiveType
+public abstract class AbstractVolatileBooleanArray< A extends AbstractVolatileBooleanArray< A > >
+		extends AbstractBooleanArray< A >
+		implements VolatileArrayDataAccess< A >
 {
-	BOOLEAN,
-	BYTE,
-	CHAR,
-	SHORT,
-	INT,
-	LONG,
-	FLOAT,
-	DOUBLE,
-	UNDEFINED;
+	final protected boolean isValid;
+
+	public AbstractVolatileBooleanArray( final int numEntities, final boolean isValid )
+	{
+		super( numEntities );
+		this.isValid = isValid;
+	}
+
+	public AbstractVolatileBooleanArray( final boolean[] data, final boolean isValid )
+	{
+		super( data );
+		this.isValid = isValid;
+	}
+
+	@Override
+	public boolean isValid()
+	{
+		return isValid;
+	}
+
+	@Override
+	public A createArray( final int numEntities )
+	{
+		return createArray( numEntities, true );
+	}
 }

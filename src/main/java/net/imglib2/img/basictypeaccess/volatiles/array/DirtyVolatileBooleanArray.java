@@ -1,4 +1,4 @@
-/*-
+/*
  * #%L
  * ImgLib2: a general-purpose, multidimensional image processing library.
  * %%
@@ -31,31 +31,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package net.imglib2.type;
+package net.imglib2.img.basictypeaccess.volatiles.array;
 
-import net.imglib2.img.basictypeaccess.AccessFlags;
-import net.imglib2.img.basictypeaccess.array.ArrayDataAccess;
-import net.imglib2.img.basictypeaccess.volatiles.array.DirtyVolatileByteArray;
+import net.imglib2.Dirty;
+import net.imglib2.img.basictypeaccess.array.BooleanArray;
+import net.imglib2.img.basictypeaccess.volatiles.VolatileBooleanAccess;
 
 /**
- * Enumeration of Java primitive types which can back {@link NativeType}s.
- * <p>
- * In conjunction with {@link AccessFlags} this describes a specific
- * {@link ArrayDataAccess}. For example, {@code BYTE} with flags {@code DIRTY}
- * and {@code VOLATILE} specifies {@link DirtyVolatileByteArray}.
- * </p>
+ * A {@link BooleanArray} with an {@link #isDirty()} and an {@link #isValid()}
+ * flag.
  *
- * @author Tobias Pietzsch
+ * @author Curtis Rueden
  */
-public enum PrimitiveType
+public class DirtyVolatileBooleanArray extends AbstractVolatileBooleanArray< DirtyVolatileBooleanArray > implements VolatileBooleanAccess, Dirty
 {
-	BOOLEAN,
-	BYTE,
-	CHAR,
-	SHORT,
-	INT,
-	LONG,
-	FLOAT,
-	DOUBLE,
-	UNDEFINED;
+	protected boolean dirty = false;
+
+	public DirtyVolatileBooleanArray( final int numEntities, final boolean isValid )
+	{
+		super( numEntities, isValid );
+	}
+
+	public DirtyVolatileBooleanArray( final boolean[] data, final boolean isValid )
+	{
+		super( data, isValid );
+	}
+
+	@Override
+	public void setValue( final int index, final boolean value )
+	{
+		dirty = true;
+		data[ index ] = value;
+	}
+
+	@Override
+	public DirtyVolatileBooleanArray createArray( final int numEntities, final boolean isValid )
+	{
+		return new DirtyVolatileBooleanArray( numEntities, isValid );
+	}
+
+	@Override
+	public boolean isDirty()
+	{
+		return dirty;
+	}
+
+	@Override
+	public void setDirty()
+	{
+		dirty = true;
+	}
 }
